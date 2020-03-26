@@ -1,13 +1,13 @@
-package org.agaray.pap;
+package org.morales.proyecto;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PapApplication {
+public class mainApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(PapApplication.class, args);
+		SpringApplication.run(mainApplication.class, args);
 	}
 
 }

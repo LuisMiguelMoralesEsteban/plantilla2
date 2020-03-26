@@ -1,4 +1,4 @@
-package org.agaray.pap.exception;
+package org.morales.proyecto.exception;
 
 @SuppressWarnings("serial")
 public class DangerException extends Exception {

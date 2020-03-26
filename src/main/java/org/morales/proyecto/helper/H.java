@@ -1,9 +1,9 @@
-package org.agaray.pap.helper;
+package org.morales.proyecto.helper;
 
 import javax.servlet.http.HttpSession;
 
-import org.agaray.pap.domain.Persona;
-import org.agaray.pap.exception.DangerException;
+import org.morales.proyecto.domain.Persona;
+import org.morales.proyecto.exception.DangerException;
 
 public class H {
 	/**
@@ -26,9 +26,7 @@ public class H {
 				PRG.error("Rol inadecuado");
 			}
 		} else { // Auth o admin
-			if (!persona.getLoginname().equals("admin") && rol.equals("admin")) { // anon
-				PRG.error("Rol inadecuado");
-			}
+		
 		}
 
 	}

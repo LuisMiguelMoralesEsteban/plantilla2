@@ -1,4 +1,4 @@
-package org.agaray.pap.exception;
+package org.morales.proyecto.exception;
 
 import javax.servlet.http.HttpSession;
 

@@ -1,7 +1,7 @@
-package org.agaray.pap.helper;
+package org.morales.proyecto.helper;
 
-import org.agaray.pap.exception.DangerException;
-import org.agaray.pap.exception.InfoException;
+import org.morales.proyecto.exception.DangerException;
+import org.morales.proyecto.exception.InfoException;
 
 public class PRG {
 
