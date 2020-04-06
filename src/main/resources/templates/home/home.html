@@ -1,0 +1,20 @@
+<div class="container">
+
+	<div class="col-4" th:if="${session.persona == null}">
+		
+		Debes hacer login para entrar
+		</div>
+<div class="col-4" th:if="${session.persona != null}">
+	<span class="col-4" th:if="${session.persona.nombre == 'admin'}" >
+		hola estas conectado como (administrador)
+	</span> 
+	<span class="col-4" th:if="${session.persona.nombre != 'admin'}" >
+		hola estas conectado como (u.estandar)
+	</span> 
+		<a href="/pais/r"><button>Pais</button></a>
+	<a href="/persona/r"><button>Persona</button></a>
+		</div>
+
+
+	
+</div>

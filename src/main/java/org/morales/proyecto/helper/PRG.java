@@ -4,6 +4,8 @@ import org.morales.proyecto.exception.DangerException;
 import org.morales.proyecto.exception.InfoException;
 
 public class PRG {
+	
+	
 
 	public static void info(String mensaje, String link) throws InfoException {
 		throw new InfoException(mensaje+"@"+link);

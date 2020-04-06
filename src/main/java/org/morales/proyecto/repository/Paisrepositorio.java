@@ -1,14 +1,16 @@
 package org.morales.proyecto.repository;
 
 
+import org.morales.proyecto.domain.Pais;
 import org.morales.proyecto.domain.Persona;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface Perosnarepositorio extends JpaRepository<Persona, Long> {
+public interface Paisrepositorio extends JpaRepository<Pais, Long> {
 	
-	public Persona getByLoginname(String loginname);
+	public Pais getByNombre(String nombre);
+
 	
 	
 

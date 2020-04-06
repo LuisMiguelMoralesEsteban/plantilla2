@@ -1,6 +1,8 @@
 <div class="container">
 	<h4 th:class="|alert alert-${severity}|">
-		<span th:text="${mensaje}"></span>
+	
+		<p th:text="${mensaje}"></p>
+		
 	</h4>
 
 	<form th:action="${link}" method="get">

@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 
 
@@ -17,6 +18,7 @@ public class Persona {
 	private Long id;
 
 	private String nombre;
+
 	@Column(unique = true)
 	private String loginname;
 
@@ -25,6 +27,18 @@ public class Persona {
 	private Integer altura;
 	
 	private LocalDate fnac;
+	@Column(unique = true)
+	private String img;
+	
+	public String getImg() {
+		return img;
+	}
+	public void setImg(String img) {
+		this.img = img;
+	}
+	@ManyToOne
+	private Pais nace;
+	
 	public Long getId() {
 		return id;
 	}
@@ -58,6 +72,12 @@ public class Persona {
 	public LocalDate getFnac() {
 		return fnac;
 	}
+	public Pais getNace() {
+		return nace;
+	}
+	public void setNace(Pais nace) {
+		this.nace = nace;
+	}
 	public void setFnac(LocalDate fnac) {
 		this.fnac = fnac;
 	}
@@ -69,6 +89,7 @@ public class Persona {
 		this.password = password;
 		this.altura = altura;
 		this.fnac = fnac;
+		
 	}
 	
 	

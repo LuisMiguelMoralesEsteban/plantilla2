@@ -1,10 +1,10 @@
-package org.agaray.pap;
+package org.morales.proyecto;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class PapApplicationTests {
+class mainApplicationTests {
 
 	@Test
 	void contextLoads() {
