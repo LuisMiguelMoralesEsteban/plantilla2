@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import org.morales.proyecto.domain.Pais;
 import org.morales.proyecto.domain.Persona;
 import org.morales.proyecto.exception.DangerException;
+import org.morales.proyecto.exception.InfoException;
 import org.morales.proyecto.helper.PRG;
 import org.morales.proyecto.repository.Paisrepositorio;
 import org.morales.proyecto.repository.Perosnarepositorio;
@@ -54,34 +55,37 @@ public class Personacontroler {
 			@RequestParam(value="fnac")
 			@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 			LocalDate fnac,
-			@RequestParam(value = "idPais", required = false) Long idPais,
+			@RequestParam(value = "idPais", required = false ) Long idPais,
 			@RequestParam("img") MultipartFile imgFile
 			
-			) throws DangerException {
+			) throws DangerException, InfoException {
 		try {	BCryptPasswordEncoder bpe = new BCryptPasswordEncoder();
 	
 		Persona persona = new Persona(nombre, loginname, bpe.encode(password), altura, fnac );
 		
 		Pais paisNacimiento = repoPais.getOne(idPais);
+		if(idPais!=0) {
 		paisNacimiento.getNace().add(persona);
-		persona.setNace(paisNacimiento);
+		
+		persona.setNace(paisNacimiento);}
 		String uploadDir = "/img/upload/";
 		String uploadDirRealPath = "";
-		String fileName = "_p";
-		String fileExtension = "png";
+		String fileName = "defeault";
+		
 
 		if (imgFile != null && imgFile.getOriginalFilename().split("\\.").length == 2) {
 			fileName = "persona-" + persona.getLoginname();
-			fileExtension = imgFile.getOriginalFilename().split("\\.")[1];
+		
 			uploadDirRealPath = "C:\\worpressts\\LuismiSP\\src\\main\\resources\\static\\img\\upload\\";
 			
-			File transferFile = new File(uploadDirRealPath + fileName + "." + fileExtension);
+			File transferFile = new File(uploadDirRealPath + fileName + "." + "png");
 			imgFile.transferTo(transferFile);
 		}
 
-		String img = uploadDir + fileName + "." + fileExtension;
+		String img = uploadDir + fileName + "." + "png";
 		persona.setImg(img);
 		repoPersona.save(persona);
+	
 	
 		}
 		catch (Exception e) {
@@ -89,8 +93,8 @@ public class Personacontroler {
 			PRG.error("error al crear " + nombre, "/persona/r");
 			}
 		
-		
-		return "redirect:/persona/r";}
+		PRG.info("usuario creado correctamente");
+		return "";}
 		
 	}
 	
