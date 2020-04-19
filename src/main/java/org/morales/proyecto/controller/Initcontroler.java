@@ -134,7 +134,7 @@ public class Initcontroler {
 		
 			repoPersona.deleteAll();
 			repoPersona.save(new Persona("admin","admin",bpe.encode("admin"), null, null));
-			PRG.info("base de datos asido reiniciada");
+			PRG.info("base de datos ha sido reiniciada");
 		
 	}else {
 		PRG.error("Contraseña incorrecta","/init");

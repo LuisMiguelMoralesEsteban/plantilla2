@@ -11,6 +11,7 @@ import org.morales.proyecto.helper.PRG;
 import org.morales.proyecto.repository.Paisrepositorio;
 import org.morales.proyecto.repository.Perosnarepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -30,6 +31,9 @@ public class Personacontroler {
 	
 	@Autowired
 	private Paisrepositorio repoPais;
+	@Value("${app.uploadFolder}")
+	private String UPLOADED_FOLDER;
+
 	
 	@GetMapping("r")
 	public String mostrar(ModelMap m) {
@@ -68,7 +72,7 @@ public class Personacontroler {
 		paisNacimiento.getNace().add(persona);
 		
 		persona.setNace(paisNacimiento);}
-		String uploadDir = "/img/upload/";
+		/*String uploadDir = "/img/upload/";*/
 		String uploadDirRealPath = "";
 		String fileName = "defeault";
 		
@@ -76,14 +80,14 @@ public class Personacontroler {
 		if (imgFile != null && imgFile.getOriginalFilename().split("\\.").length == 2) {
 			fileName = "persona-" + persona.getLoginname();
 		
-			uploadDirRealPath = "C:\\worpressts\\LuismiSP\\src\\main\\resources\\static\\img\\upload\\";
+			uploadDirRealPath = UPLOADED_FOLDER;
 			
 			File transferFile = new File(uploadDirRealPath + fileName + "." + "png");
 			imgFile.transferTo(transferFile);
 		}
 
-		String img = uploadDir + fileName + "." + "png";
-		persona.setImg(img);
+		/*String img = uploadDir + fileName + "." + "png";
+		persona.setImg(img);*/
 		repoPersona.save(persona);
 	
 	

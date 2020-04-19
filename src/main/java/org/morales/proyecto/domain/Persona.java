@@ -27,15 +27,15 @@ public class Persona {
 	private Integer altura;
 	
 	private LocalDate fnac;
-	@Column(unique = true)
-	private String img;
+	
+	/*private String img;
 	
 	public String getImg() {
 		return img;
 	}
 	public void setImg(String img) {
 		this.img = img;
-	}
+	}*/
 	@ManyToOne
 	private Pais nace;
 	
