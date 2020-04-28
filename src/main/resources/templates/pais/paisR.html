@@ -2,11 +2,11 @@
 	<h1>Lista de personas</h1>
 		
 <div >
-	<a class="col-4" th:if="${session.persona.nombre == 'admin'}" href="/pais/c">
+	<a class="col-4"  href="/pais/c">
 		<button>Crear</button>
 	</a> 
 	
-	<a href="/">
+	<a href="/pais/r">
 		<button>Cancelar</button>
 	</a>
 	
@@ -17,17 +17,19 @@
 	<table class="table table-striped">
 		<tr>
 			
-			<th>Loginname</th>
-			<th>Nombre</th>
-			<th>password</th>
-			<th>Altura</th>
 			
-			<th>fnac</th>
-			<th>foto</th>
+			<th>Nombre</th>
+			<th>numero</th>
+			<th>acion</th>
+			
 			
 		</tr>
 
+		<tr th:each="pais:${paises}">
+		<td th:text="${pais.nombre}"></td>
+		<td th:text="${pais.nace.size()}"></td>
 		
+		</tr>
 
 	</table>
 </div>

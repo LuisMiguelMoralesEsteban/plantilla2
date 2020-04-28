@@ -29,6 +29,7 @@ public class Paiscontroler {
 	
 	@GetMapping("r")
 	public String mostrar(ModelMap m) {
+		m.put("paises", repoPais.findAll());
 		m.put("view", "/pais/paisR");
 		return "/_t/frame";
 	}
