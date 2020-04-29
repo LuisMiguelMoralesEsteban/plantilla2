@@ -6,7 +6,7 @@
 		<button>Crear</button>
 	</a> 
 	
-	<a href="/pais/r">
+	<a href="/">
 		<button>Cancelar</button>
 	</a>
 	
@@ -19,7 +19,7 @@
 			
 			
 			<th>Nombre</th>
-			<th>numero</th>
+			<th>numero habitantes</th>
 			<th>acion</th>
 			
 			
@@ -28,6 +28,26 @@
 		<tr th:each="pais:${paises}">
 		<td th:text="${pais.nombre}"></td>
 		<td th:text="${pais.nace.size()}"></td>
+	
+		
+	
+		<td>
+		
+		<form action="/pais/u" method="get">
+					<input type="hidden" name="id" th:value="${pais.id}" />
+					<button onclick="submit()">
+						<img src="/img/editar.png" height="20" width="20">
+					</button>
+				</form>
+				
+				<form   th:if="${pais.nace.size()}==0" action="/pais/d" method="post">
+					<input type="hidden" name="id" th:value="${pais.id}" />
+					<button onclick="submit()">
+						<img src="/img/basura.png" height="20" width="20">
+					</button>
+				</form>
+		
+		</td>
 		
 		</tr>
 

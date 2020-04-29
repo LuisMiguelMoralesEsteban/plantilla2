@@ -1,46 +1,15 @@
 <div class="container">
-	<h1>Editar persona</h1>
+	<h1>Editar pais</h1>
+	 
+	<a href="/pais/r">
+		<button>Cancelar</button>
+	</a>
+	 	<form   action="/pais/u" method="post">
+				nombre antiguo:<input th:each="pais:${paises}" type="text" name="nombreantiguo" th:value="${pais.nombre}" readonly /><br>
+				nombre nuevo:<input th:each="pais:${paises}" type="text" name="nombrenuevo" />
+				<input th:each="pais:${paises}" type="hidden" name="id" th:value="${pais.id}" />
+					<input  type="submit" value="enviar" />
+				</form>
+   
 	
-	<form method="post" action="/persona/u" class="form">
-		<input type="hidden" name="id" th:value="${persona.id}"/>
-	
-		Nombre
-		<input type="text" name="nombre" th:value="${persona.nombre}">
-		<br/>
-		
-		Altura (cm.)
-		<input type="number" min="1" max="300" name="altura" th:value="${persona.altura}">
-		<br/>
-		
-		Fecha de nac.
-		<input type="date" name="fnac" th:value="${persona.fnac}">
-		<br/>
-		
-				
-		
-		País de nacimiento
-		<select name="idPais">
-			<option th:each="pais:${paises}" th:text="${pais.nombre}" th:value="${pais.id}" th:selected="${persona.nace.id==pais.id}"></option>
-		</select>
-		<br/>
-		
-		<fieldset>
-		<legend>Aficiones (gustos)</legend>
-			<span th:each="aficion:${aficiones}" >
-				<input type="checkbox" th:id="|idg-${aficion.id}|" th:name="idAficionGusta[]" th:value="${aficion.id}"  th:checked="${persona.gustos.contains(aficion)}"/>
-				<label th:for="|idg-${aficion.id}|" th:text="${aficion.nombre}"></label>
-			</span>
-		</fieldset>
-		
-		<fieldset>
-		<legend>Aficiones (odios)</legend>
-			<span th:each="aficion:${aficiones}" >
-				<input type="checkbox" th:id="|ido-${aficion.id}|" th:name="idAficionOdio[]" th:value="${aficion.id}" th:checked="${persona.odios.contains(aficion)}"/>
-				<label th:for="|ido-${aficion.id}|" th:text="${aficion.nombre}"></label>
-			</span>
-		
-		</fieldset>
-
-		<input type="submit" class="form-item" />
-	</form>
 </div>
