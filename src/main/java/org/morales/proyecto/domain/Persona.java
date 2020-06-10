@@ -1,6 +1,8 @@
 package org.morales.proyecto.domain;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 
 
@@ -28,20 +32,43 @@ public class Persona {
 	
 	private LocalDate fnac;
 	
-	/*private String img;
+	private String img;
+	
+	
 	
 	public String getImg() {
 		return img;
 	}
 	public void setImg(String img) {
 		this.img = img;
-	}*/
+	}
 	@ManyToOne
 	private Pais nace;
 	
-	public Long getId() {
+
+
+	public Collection<Venta> getVentaencurso() {
+		return ventaencurso;
+	}
+	public void setVentaencurso(Collection<Venta> ventaencurso) {
+		this.ventaencurso = ventaencurso;
+	}
+	@OneToMany(mappedBy="ventaencurso")
+	private Collection<Venta> ventaencurso;
+
+	
+	
+	
+
+	
+	
+	
+		public Long getId() {
 		return id;
 	}
+	
+	
+	
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -89,8 +116,10 @@ public class Persona {
 		this.password = password;
 		this.altura = altura;
 		this.fnac = fnac;
+		this.ventaencurso = new ArrayList<Venta>();
 		
 	}
+	
 	
 	
 

@@ -1,0 +1,56 @@
+<div class="container">
+<a href="/">
+		<button>Cancelar</button>
+	</a>
+	<h1>Editar persona</h1>
+	
+	<form method="post" action="/producto/u" class="form" enctype="multipart/form-data">
+		<input type="hidden" name="id" th:value="${producto.id}"/>
+	
+		Nombre antiguo
+		<input type="text" name="stocka" th:value="${producto.nombre}"readonly>
+		<br/>
+		
+		stock antiguo 
+		<input type="number" min="1"  name="precio" th:value="${producto.precio}" readonly>
+		<br/>
+		
+	
+		
+		Foto. antigua
+		<input type="text" name="fnaca" th:value="'producto-'+${producto.nombre} + '.' + ${producto.img}" readonly>
+		<br/>	
+		
+		categoria antigua
+		
+		<input type="text" name="naca" th:value="${producto.categoria?.nombre}" readonly>
+		<br>
+	
+		Nombre
+		<input type="text" name="nombre" >
+		<br/>
+		stock
+		<input type="number" name="stock" >
+		<br/>
+		
+		precio
+		<input type="number" min="1" max="300" name="precio" >
+		<br/>
+		
+	
+		
+		foto
+		<input type="file" name="img" accept="image/x-png,image/gif,image/jpeg"  >
+        <br/>		
+		
+		categoria
+		<select name="idcategoria">
+		
+			<option th:each="categoria:${categorias}" th:text="${categoria.nombre}" th:value="${categoria.id}"></option>
+		</select>
+		<br/>
+		
+		
+		<input type="submit" class="form-item" />
+	</form>
+</div>

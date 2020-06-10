@@ -1,0 +1,93 @@
+<script type="text/javascript">
+
+
+function loadDoc() {
+	
+	var nombre =document.getElementById("nombre").value;
+    
+	var r = document.getElementsByName("nombrec");
+	var nombrerepitido= [];
+
+	for (var i=0;i<r.length;i++){
+		nombrerepitido.push(document.getElementsByName("nombrec")[i].value)
+		
+	}
+	
+	var stringnombresrepetidos=nombrerepitido.toString();
+
+
+	
+	
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+    	 
+    	
+      document.getElementById("mensaje").innerHTML =
+      this.responseText;}
+    
+  };
+  xhttp.open("POST","http://localhost:8080/producto/lanzarajax", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("nombre="+nombre+"&stringnombresrepetidos="+stringnombresrepetidos);
+  
+  
+}
+
+		
+	
+	</script>
+
+
+<div class="container">
+	<h1>Nuevo producto</h1>
+	<a href="/">
+	
+		<button>Cancelar</button>
+	</a>
+
+	<form id="frm" method="post" action="/producto/c" class="form"  enctype="multipart/form-data">
+	
+	
+		Nombre
+		<input type="text" name="nombre" id="nombre"onkeyup="loadDoc()" required="required">
+		<span  id="mensaje"></span>
+	<span  th:each="producto:${productos}">		
+	
+	<input type="hidden"  th:name="nombrec"   th:value="${producto.nombre}">
+		
+		 </span>
+		 
+		<br/>
+		
+	
+
+		stock
+		<input type="number" name="stock">
+		<br/>
+
+		precio
+		<input type="int"  name="precio" min="1" max="400" value="1">
+		<br/>
+		
+		
+		
+
+		
+		foto
+		<input type="file" name="img" accept="image/x-png,image/gif,image/jpeg"  >
+        <br/>
+		
+		
+				categoria
+		<select name="idcategoria">
+			<option value=0>---</option>
+			<option th:each="categoria:${categorias}" th:text="${categoria.nombre}" th:value="${categoria.id}"></option>
+		</select>
+		<input type="submit" class="form-item" />
+		<br/>
+		
+	</form>
+	
+</div>
+

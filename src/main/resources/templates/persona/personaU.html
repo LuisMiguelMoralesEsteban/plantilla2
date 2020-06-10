@@ -1,46 +1,66 @@
 <div class="container">
+<a href="/">
+		<button>Cancelar</button>
+	</a>
 	<h1>Editar persona</h1>
 	
-	<form method="post" action="/persona/u" class="form">
+	<form method="post" action="/persona/u" class="form" enctype="multipart/form-data">
 		<input type="hidden" name="id" th:value="${persona.id}"/>
-	
+	logmame antigua
+		<input type="text" name="lnombrea" th:value="${persona.loginname}"readonly>
+		<br/>
+		Nombre antigua
+		<input type="text" name="nombrea" th:value="${persona.nombre}"readonly>
+		<br/>
+		
+		Altura antigua (cm.)
+		<input type="number" min="1" max="300" name="alturaa" th:value="${persona.altura}" readonly>
+		<br/>
+		
+		Fecha de nac. antigua
+		<input type="date" name="fnaca" th:value="${persona.fnac}" readonly>
+		<br/>
+		
+		Foto. antigua
+		<input type="text" name="fnaca" th:value="'persona-'+${persona.nombre} + '.' + ${persona.img}" readonly>
+		<br/>	
+		
+		País de nacimiento antiguo
+		
+		<input type="text" name="naca" th:value="${persona.nace?.nombre}" readonly>
+		<br>
+		
+		logmame 
+		<input type="text" name="loginname" >
+		<br/>
 		Nombre
-		<input type="text" name="nombre" th:value="${persona.nombre}">
+		<input type="text" name="nombre" >
+		<br/>
+		paswword
+		<input type="pasword" name="password" >
 		<br/>
 		
 		Altura (cm.)
-		<input type="number" min="1" max="300" name="altura" th:value="${persona.altura}">
+		<input type="number" min="1" max="300" name="altura" >
 		<br/>
 		
 		Fecha de nac.
-		<input type="date" name="fnac" th:value="${persona.fnac}">
+		<input type="date" name="fnac" >
+		
 		<br/>
 		
-				
+			foto
+		<input type="file" name="img" accept="image/x-png,image/gif,image/jpeg"  >
+        <br/>		
 		
 		País de nacimiento
 		<select name="idPais">
-			<option th:each="pais:${paises}" th:text="${pais.nombre}" th:value="${pais.id}" th:selected="${persona.nace.id==pais.id}"></option>
+		<option value=0 >----</option>
+			<option th:each="pais:${paises}" th:text="${pais.nombre}" th:value="${pais.id}"></option>
 		</select>
 		<br/>
 		
-		<fieldset>
-		<legend>Aficiones (gustos)</legend>
-			<span th:each="aficion:${aficiones}" >
-				<input type="checkbox" th:id="|idg-${aficion.id}|" th:name="idAficionGusta[]" th:value="${aficion.id}"  th:checked="${persona.gustos.contains(aficion)}"/>
-				<label th:for="|idg-${aficion.id}|" th:text="${aficion.nombre}"></label>
-			</span>
-		</fieldset>
 		
-		<fieldset>
-		<legend>Aficiones (odios)</legend>
-			<span th:each="aficion:${aficiones}" >
-				<input type="checkbox" th:id="|ido-${aficion.id}|" th:name="idAficionOdio[]" th:value="${aficion.id}" th:checked="${persona.odios.contains(aficion)}"/>
-				<label th:for="|ido-${aficion.id}|" th:text="${aficion.nombre}"></label>
-			</span>
-		
-		</fieldset>
-
 		<input type="submit" class="form-item" />
 	</form>
 </div>

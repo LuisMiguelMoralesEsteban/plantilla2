@@ -6,19 +6,24 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collection;
+import java.util.List;
 
+import javax.print.DocFlavor.STRING;
 import javax.servlet.http.HttpSession;
 
+import org.morales.proyecto.domain.Categoria;
 import org.morales.proyecto.domain.Pais;
 import org.morales.proyecto.domain.Persona;
+import org.morales.proyecto.domain.Producto;
 import org.morales.proyecto.domain.Venta;
 import org.morales.proyecto.exception.DangerException;
 import org.morales.proyecto.exception.InfoException;
 import org.morales.proyecto.helper.H;
 import org.morales.proyecto.helper.PRG;
+import org.morales.proyecto.repository.Categoriarepositorio;
 import org.morales.proyecto.repository.Paisrepositorio;
 import org.morales.proyecto.repository.Perosnarepositorio;
+import org.morales.proyecto.repository.Productorepositorio;
 import org.morales.proyecto.repository.Ventarepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,72 +35,68 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
-@RequestMapping(value = "/persona")
-public class Personacontroler {
+@RequestMapping(value = "/producto")
+public class Productocontroler {
 	
 	@Autowired
-	private Perosnarepositorio repoPersona;
-	
+	private Productorepositorio repoProducto;
 	@Autowired
-	private Paisrepositorio repoPais;
-	@Autowired
-	private Ventarepositorio repoventa;
+	private Categoriarepositorio repocategoria;
+
 	@Value("${app.uploadFolder}")
 	private String UPLOADED_FOLDER;
+	
+	
 
 	@GetMapping("u")
 	public String actualizarGet(ModelMap m, @RequestParam("id") Long id, HttpSession s) throws DangerException {
 		H.isRolOK("admin", s);
 
-		m.put("paises", repoPais.findAll());
+		m.put("categorias", repocategoria.findAll());
 
-		m.put("persona", repoPersona.getOne(id));
+		m.put("producto", repoProducto.getOne(id));
 		
-		m.put("view", "/persona/personaU");
+		m.put("view", "/producto/productoU");
 		return "/_t/frame";
 	}
+	
+	
 	@PostMapping("u")
 	public void updatePost(
 			@RequestParam("id") Long id,
 			@RequestParam("nombre") String nombre,
-			@RequestParam("loginname") String loginname, 
-			@RequestParam("password") String password,
-			@RequestParam(value="altura") Integer altura, 
-			@RequestParam(value="fnac")
-			@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-			LocalDate fnac,
-			@RequestParam(value = "idPais", required = false ) Long idPais,
+			
+			@RequestParam("stock") int stock,
+			@RequestParam("precio") double precio, 
+			@RequestParam(value = "idcategoria", required = false ) Long idcategoria,
 			@RequestParam("img") MultipartFile imgFile
 			
 			) throws DangerException, InfoException {
 		try {
-			Persona persona = repoPersona.getOne(id);
+			Producto producto = repoProducto.getOne(id);
 
 		
-			persona.setNombre(nombre);
-			persona.setLoginname(loginname);
-			persona.setAltura(altura);
-			persona.setFnac(fnac);
-			Pais paisNacimiento = repoPais.getOne(idPais);
-			if(idPais!=0) {
-			paisNacimiento.getNace().add(persona);
+			producto.setNombre(nombre);
+			producto.setStock(stock);
+			producto.setPrecio(precio);
+
+			Categoria categoria = repocategoria.getOne(idcategoria);
 			
 			
-			persona.setNace(paisNacimiento);}
-			else {
-				persona.setNace(null);
-				
-			}
+			
+			producto.setCategoria(categoria);
+		
 			String uploadDir = "/img/upload/";
 			String uploadDirRealPath = "";
 			String fileName = "defeault";
 			
 
 			if (imgFile != null && imgFile.getOriginalFilename().split("\\.").length == 2) {
-				fileName = "persona-" + persona.getLoginname();
+				fileName = "producto-" + producto.getNombre();
 			
 				uploadDirRealPath = UPLOADED_FOLDER;
 				
@@ -109,34 +110,22 @@ public class Personacontroler {
 		File fichero = new File(sFichero);
 
 		if (fichero.exists())
-			 persona.setImg(img );
+			 producto.setImg(img );
 		else {
-			persona.setImg(null);
-		}
-		   
-
-			 
-		
-		
+			producto.setImg(null);
+		}					
 			
 			
-			
-			repoPersona.save(persona);
-			
-			
-			
-					
-						
-						
+			repoProducto.save(producto);										
 						
 			
 		}
 		
 		catch (Exception e) {
-			PRG.error("Error al actualizar " + nombre + " // "+e.getMessage(), "/persona/r");
+			PRG.error("Error al actualizar " + nombre + " // "+e.getMessage(), "/producto/r");
 		}
 
-		PRG.info("Persona " + nombre + " actualizada correctamente", "/persona/r");
+		PRG.info("Producto " + nombre + " actualizado correctamente", "/producto/r");
 		
 	
 		
@@ -145,17 +134,17 @@ public class Personacontroler {
 	
 
 	@PostMapping("d")
-	public String borrarPost(@RequestParam("id") Long idPersona, HttpSession s) throws DangerException {
+	public String borrarPost(@RequestParam("id") Long idProducto, HttpSession s) throws DangerException {
 		H.isRolOK("admin", s);
-		String nombrePersona = "----";
+		String nombreproducto = "----";
 		try {
-			Persona persona = repoPersona.getOne(idPersona);
-			nombrePersona = persona.getNombre();
-			repoPersona.delete(persona);
+			Producto producto = repoProducto.getOne(idProducto);
+			nombreproducto = producto.getNombre();
+			repoProducto.delete(producto);
 		} catch (Exception e) {
-			PRG.error("Error al borrar la persona " + nombrePersona, "/persona/r");
+			PRG.error("Error al borrar la persona " + nombreproducto, "/producto/r");
 		}
-		return "redirect:/persona/r";
+		return "redirect:/producto/r";
 	}
 	
 	
@@ -163,17 +152,19 @@ public class Personacontroler {
 	
 	@GetMapping("r")
 	public String mostrar(ModelMap m) {
-		m.put("personas", repoPersona.findAll());
+		m.put("productos", repoProducto.findAll());
 
-		m.put("view", "/persona/personaR");
+		m.put("view", "/producto/productoR");
 		return "/_t/frame";
 	}
 	
 	
 	@GetMapping("c")
 	public String registro(ModelMap m) {
-		m.put("paises", repoPais.findAll());
-		m.put("view", "/persona/personaC");
+		m.put("productos", repoProducto.findAll());
+		m.put("categorias", repocategoria.findAll());
+		
+		m.put("view", "/producto/productoC");
 		
 		return "/_t/frame";
 	}
@@ -181,29 +172,23 @@ public class Personacontroler {
 	@PostMapping("c")
 	public String crearPost(
 			@RequestParam("nombre") String nombre,
-			@RequestParam("loginname") String loginname, 
-			@RequestParam("password") String password,
-			@RequestParam(value="altura") Integer altura, 
-			@RequestParam(value="fnac")
-			@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-			LocalDate fnac,
-			@RequestParam(value = "idPais", required = false ) Long idPais,
+		 
+			@RequestParam("stock") int stock,
+			@RequestParam(value="precio") double precio, 
+			@RequestParam(value = "idcategoria", required = false ) Long idcategoria,
 			@RequestParam("img") MultipartFile imgFile
 			
 			) throws DangerException, InfoException {
 		try {	BCryptPasswordEncoder bpe = new BCryptPasswordEncoder();
 	
-		Persona persona = new Persona(nombre, loginname, bpe.encode(password), altura, fnac );
+		Producto producto = new Producto( nombre, stock,  precio);
 		
-		LocalDate ahora =  LocalDate.now().plusDays(1);
-		Venta Venta = new Venta( ahora, null);
+		Categoria categoria = repocategoria.getOne(idcategoria);
+		if(idcategoria!=null) {
+		producto.setCategoria(categoria);}
 		
-		Pais paisNacimiento = repoPais.getOne(idPais);
 		
-		if(idPais!=0) {
-		paisNacimiento.getNace().add(persona);
 		
-		persona.setNace(paisNacimiento);}
 		
 		String uploadDir = "/img/upload/";
 		String uploadDirRealPath = "";
@@ -211,39 +196,60 @@ public class Personacontroler {
 		
 
 		if (imgFile != null && imgFile.getOriginalFilename().split("\\.").length == 2) {
-			fileName = "persona-" + persona.getLoginname();
+			fileName = "producto-" + producto.getNombre();
 		
 			uploadDirRealPath = UPLOADED_FOLDER;
 			
 			File transferFile = new File(uploadDirRealPath + fileName + "." + "png");
 			imgFile.transferTo(transferFile);
 		}
-	String img ="png";
+
+		String img ="png";
 		
 		String sFichero = uploadDirRealPath + fileName + "." + "png";
 		File fichero = new File(sFichero);
 
 		if (fichero.exists())
-			 persona.setImg(img );
-		else {
-			persona.setImg(null);
-		}
+			 producto.setImg(img );
 		
-		repoPersona.save(persona);
+
+		repoProducto.save(producto);
 		
-		repoventa.save(Venta);
-		Venta.setVentaencurso(persona);	
-		repoventa.save(Venta);
+		
+		
+		
 	
 	
 		}
 		catch (Exception e) {
 			
-			PRG.error("error al crear " + nombre, "/persona/r");
+			PRG.error("no se  parmite producto sin categoria");
 			}
 		
-		PRG.info("usuario creado correctamente");
+		PRG.info("producto creado correctamente");
 		return "";}
+	
+	
+	@ResponseBody
+	@PostMapping(value="/lanzarajax",produces="text/plain")
+	public String lanzarajax( @RequestParam("nombre") String nombre,@RequestParam("stringnombresrepetidos") String stringnombresrepetidos) {
 		
-	}
+		String[] parts = stringnombresrepetidos.split(",");
+		String elmensaje="";
+		for(int i=0;i<parts.length;i++) {
+			if(parts[i].equals(nombre)&&nombre!=null) {
+			elmensaje="el producoto"+nombre+"esta duplicado";
+		}
+			
+		
+		}
+		return elmensaje;}
+	
+
+}
+	
+	
+	
+
+
 	

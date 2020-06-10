@@ -20,9 +20,47 @@
 			
 			
 			<th>Nombre</th>
-			
+			<th>altura</th>
+			<th>fecha nacimento</th>
+			<th>imagen</th>
+			<th>nace</th>
+			<th>accion</th>
 		</tr>
+<tr>
+<tr th:each="persona:${personas}">
+		<td th:text="${persona.nombre}"></td>
+	<td th:text="${persona.altura}"></td>
+	<td th:text="${persona.fnac}"></td>
+	
+		<td  th:if="${persona.img}!=null" >
+		<img  th:src="'/img/upload/persona-'+${persona.nombre} + '.' + ${persona.img}" height="50" width="50"/>
+		
+		</td>
+			<td  th:if="${persona.img}==null" >
+		<img  src="/img/upload/noimagen.jpg" height="50" width="50"/>
+		
+		</td>
+		
+	<td th:text="${persona.nace?.nombre}"></td>
+		<td>
 
+		<form action="/persona/u" method="get">
+					<input type="hidden" name="id" th:value="${persona.id}" />
+					<button onclick="submit()">
+						<img src="/img/editar.png" height="20" width="20">
+					</button>
+				</form>
+				
+				<form    action="/persona/d" method="post">
+					<input type="hidden" name="id" th:value="${persona.id}" />
+					<button onclick="submit()">
+						<img src="/img/basura.png" height="20" width="20">
+					</button>
+				</form>
+		
+		</td>
+
+</tr>
 		
 
 	</table>

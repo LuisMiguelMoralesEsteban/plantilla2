@@ -1,0 +1,15 @@
+<div class="container">
+	<h1>Editar categoria</h1>
+	 
+	<a href="/categoria/r">
+		<button>Cancelar</button>
+	</a>
+	 	<form   action="/categoria/u" method="post">
+				nombre antiguo:<input th:each="categoria:${categorias}" type="text" name="nombreantiguo" th:value="${categoria.nombre}" readonly /><br>
+				nombre nuevo:<input th:each="categoria:${categorias}" type="text" name="nombrenuevo" />
+				<input th:each="categoria:${categorias}" type="hidden" name="id" th:value="${categoria.id}" />
+					<input  type="submit" value="enviar" />
+				</form>
+   
+	
+</div>
